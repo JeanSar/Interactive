@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Interactive</string>
+    <string name="button_play">Play</string>
+    <string name="button_quit">Quit</string>
 </resources>
