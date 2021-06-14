@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
      public void sendMessage( View V) {
          Intent intent = new Intent(this, GameActivity.class);
-         String message = "La Traque";
+         String message = "La_Traque";
          intent.putExtra(EXTRA_MESSAGE, message);
          startActivity(intent);
          finish();
