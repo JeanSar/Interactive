@@ -40,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 text.append(mLine);
+                text.append(System.getProperty("line.separator"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,9 +55,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
-
         paragraphe.setText(text);
-
-
+        System.out.println(text);
     }
 }
