@@ -15,10 +15,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
      public void sendMessage( View V) {
-         Intent intent = new Intent(this, DisplayMessageActivity.class);
-         String message = "Hello !";
+         Intent intent = new Intent(this, GameActivity.class);
+         String message = "La Traque";
          intent.putExtra(EXTRA_MESSAGE, message);
          startActivity(intent);
+         finish();
     }
 
     public void quit(View V) {
