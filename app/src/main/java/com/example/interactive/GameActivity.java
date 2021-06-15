@@ -67,9 +67,9 @@ public class GameActivity extends AppCompatActivity {
 
     public void textAnalyser (StringBuilder text,
                               ArrayList<Pair<Pair<Integer,Integer>,Pair<Integer,Integer>>> analysis) {
-        Pair< Integer, Integer> tmp1 = new Pair(-1, -1);
-        Pair< Integer, Integer> tmp2= new Pair(-1, -1);
-        int start = 0;
+        Pair< Integer, Integer> tmp1 = new Pair<>();
+        Pair< Integer, Integer> tmp2= new Pair<>();
+        int start;
         int index = text.indexOf("[");
 
         while(index != -1) {
