@@ -62,9 +62,10 @@ public class GameActivity extends AppCompatActivity {
         textAnalyser(text, analysis);
 
         paragraphe.setText(text);
-        System.out.println(text);
+        //System.out.println("XXXXXXXXXXXX-----------> " + analysis.get(0).getSecond().getSecond());
     }
 
+    //va récupérer les choix possibles dans le texte
     public void textAnalyser (StringBuilder text,
                               ArrayList<Pair<Pair<Integer,Integer>,Pair<Integer,Integer>>> analysis) {
         Pair< Integer, Integer> tmp1 = new Pair<>();
@@ -75,8 +76,21 @@ public class GameActivity extends AppCompatActivity {
         while(index != -1) {
             tmp1.setFirst(index);
             start = index;
+
+            index = text.indexOf("]", start);
+            tmp1.setSecond(index);
+
+            index++;
+            tmp2.setFirst(index);
+            start = index;
+
+            index = text.indexOf("]", start);
+            tmp2.setSecond(index);
+            start = index;
+
+            analysis.add(new Pair<>(tmp1,tmp2));
+
             index = text.indexOf("[", start);
         }
-
     }
 }
