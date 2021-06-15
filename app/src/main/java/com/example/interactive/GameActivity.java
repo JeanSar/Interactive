@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -55,7 +56,27 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
+
+        ArrayList< Pair<Pair< Integer, Integer>, Pair< Integer, Integer>>> analysis =
+            new ArrayList<>();
+        textAnalyser(text, analysis);
+
         paragraphe.setText(text);
         System.out.println(text);
+    }
+
+    public void textAnalyser (StringBuilder text,
+                              ArrayList<Pair<Pair<Integer,Integer>,Pair<Integer,Integer>>> analysis) {
+        Pair< Integer, Integer> tmp1 = new Pair(-1, -1);
+        Pair< Integer, Integer> tmp2= new Pair(-1, -1);
+        int start = 0;
+        int index = text.indexOf("[");
+
+        while(index != -1) {
+            tmp1.setFirst(index);
+            start = index;
+            index = text.indexOf("[", start);
+        }
+
     }
 }
