@@ -90,7 +90,11 @@ public class GameActivity extends AppCompatActivity {
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View textView) {
-                    launchText(msgtitle, analysis.get(finalI).getSecond(), am);
+                    if(analysis.get(finalI).getSecond() != -1) {
+                        launchText(msgtitle, analysis.get(finalI).getSecond(), am);
+                    }else {
+                        quitToMenu();
+                    }
                 }
                 @Override
                 public void updateDrawState(TextPaint ds) {
@@ -141,5 +145,11 @@ public class GameActivity extends AppCompatActivity {
         }
 
         return newtext;
+    }
+
+    public void quitToMenu() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+
     }
 }

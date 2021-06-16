@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button button_play = findViewById(R.id.button);
-
         button_play.setOnClickListener(this::sendMessage);
 
         final Button button_quit = findViewById(R.id.button4);
