@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final String EXTRA_MESSAGE = "Story/nb";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
      public void sendMessage( View V) {
          Intent intent = new Intent(this, GameActivity.class);
-         String message = "La_Traque";
+         String message = "La_Traque/0";
          intent.putExtra(EXTRA_MESSAGE, message);
          startActivity(intent);
          finish();

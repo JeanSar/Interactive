@@ -3,8 +3,15 @@ package com.example.interactive;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -24,11 +31,17 @@ public class GameActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String msg = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
+        //Cutting the message to get ony the title if possible
+        int idx = msg.indexOf("/");
+        String msgtitle = "";
+        if(idx != -1) {
+            msgtitle =  msg.substring(0,idx);
+        }
         // Capture the layout's TextView and set the string as its text
         TextView title = findViewById(R.id.title);
-        title.setText(message);
+        title.setText(msgtitle);
 
         TextView paragraphe = findViewById(R.id.paragraphe);
         StringBuilder text = new StringBuilder();
@@ -37,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(am.open("La_Traque/0")));
+                    new InputStreamReader(am.open(msg)));
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 text.append(mLine);
@@ -61,11 +74,28 @@ public class GameActivity extends AppCompatActivity {
             new ArrayList<>();
         textAnalyser(text, analysis);
 
-        paragraphe.setText(text);
         //System.out.println("XXXXXXXXXXXX-----------> " + analysis.get(0).getSecond().getSecond());
+
+        SpannableString ss = new SpannableString(text);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(new Intent(GameActivity.this, MainActivity.class));
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        };
+        ss.setSpan(clickableSpan, analysis.get(0).getFirst().getFirst(), analysis.get(0).getFirst().getSecond(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        paragraphe.setText(ss);
+        paragraphe.setMovementMethod(LinkMovementMethod.getInstance());
+        paragraphe.setHighlightColor(Color.TRANSPARENT);
     }
 
-    //va récupérer les choix possibles dans le texte
+    //va récupérer les choix possibles dans le texte également modifié et les ordonner dans une liste
     public void textAnalyser (StringBuilder text,
                               ArrayList<Pair<Pair<Integer,Integer>,Pair<Integer,Integer>>> analysis) {
         Pair< Integer, Integer> tmp1 = new Pair<>();
