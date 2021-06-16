@@ -84,18 +84,23 @@ public class GameActivity extends AppCompatActivity {
         String newtext = textAnalyser(text, analysis);
 
         SpannableString ss = new SpannableString(newtext);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                launchText(msgtitle, analysis.get(0).getSecond(), am);
-            }
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(false);
-            }
-        };
-        ss.setSpan(clickableSpan, analysis.get(0).getFirst().getFirst(), analysis.get(0).getFirst().getSecond(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        for(int i= 0; i < analysis.size(); i++) {
+            int finalI = i;
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View textView) {
+                    launchText(msgtitle, analysis.get(finalI).getSecond(), am);
+                }
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setUnderlineText(false);
+                }
+            };
+            ss.setSpan(clickableSpan, analysis.get(finalI).getFirst().getFirst(), analysis.get(finalI).getFirst().getSecond(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
 
         paragraphe.setText(ss);
         paragraphe.setMovementMethod(LinkMovementMethod.getInstance());
