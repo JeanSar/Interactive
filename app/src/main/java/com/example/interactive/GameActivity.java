@@ -70,13 +70,11 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        ArrayList< Pair<Pair< Integer, Integer>, Pair< Integer, Integer>>> analysis =
+        ArrayList< Pair<Pair< Integer, Integer>, Integer>> analysis =
             new ArrayList<>();
-        textAnalyser(text, analysis);
+        String newtext = textAnalyser(text, analysis);
 
-        //System.out.println("XXXXXXXXXXXX-----------> " + analysis.get(0).getSecond().getSecond());
-
-        SpannableString ss = new SpannableString(text);
+        SpannableString ss = new SpannableString(newtext);
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
@@ -95,32 +93,41 @@ public class GameActivity extends AppCompatActivity {
         paragraphe.setHighlightColor(Color.TRANSPARENT);
     }
 
-    //va récupérer les choix possibles dans le texte également modifié et les ordonner dans une liste
-    public void textAnalyser (StringBuilder text,
-                              ArrayList<Pair<Pair<Integer,Integer>,Pair<Integer,Integer>>> analysis) {
-        Pair< Integer, Integer> tmp1 = new Pair<>();
-        Pair< Integer, Integer> tmp2= new Pair<>();
+    //get the possible choices and the indexes of the clickable texts while removing the encoding information
+    public String textAnalyser (StringBuilder text,
+                              ArrayList<Pair<Pair<Integer,Integer>,Integer>> analysis) {
+        String newtext = text.toString();
+        Pair< Integer, Integer> tmp1 = new Pair<>(); //clickable zone
+        Pair< Integer, Integer> tmp2= new Pair<>(); //choice zone
+        int tmp3; //value of the choice zone
+
         int start;
-        int index = text.indexOf("[");
+        int index = newtext.indexOf("[");
 
-        while(index != -1) {
-            tmp1.setFirst(index);
+        while(index != -1) { //while there is choices in the text with right format
+            tmp1.setFirst(index); //-1 because we're removing it in the text
             start = index;
+            newtext = newtext.replaceFirst("\\[","");
 
-            index = text.indexOf("]", start);
+            index = newtext.indexOf("]", start) ;
             tmp1.setSecond(index);
+            newtext = newtext.replaceFirst("]","");
 
-            index++;
             tmp2.setFirst(index);
             start = index;
 
-            index = text.indexOf("]", start);
+            index = newtext.indexOf("]", start);
             tmp2.setSecond(index);
             start = index;
 
-            analysis.add(new Pair<>(tmp1,tmp2));
+            System.out.println(tmp2.getFirst() + tmp2.getSecond());
+            tmp3 = Integer.parseInt(newtext.substring(tmp2.getFirst() + 1, tmp2.getSecond())); //get the right value
 
-            index = text.indexOf("[", start);
+            analysis.add(new Pair<>(tmp1,tmp3));
+
+            index = newtext.indexOf("[", start);
         }
+
+        return newtext;
     }
 }
