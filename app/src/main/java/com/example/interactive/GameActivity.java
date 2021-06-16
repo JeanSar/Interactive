@@ -33,15 +33,24 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String msg = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        //Cutting the message to get ony the title if possible
+        //Cutting the message to get ony the title and the nbtext
         int idx = msg.indexOf("/");
         String msgtitle = "";
+        String nbtext = "";
         if(idx != -1) {
             msgtitle =  msg.substring(0,idx);
+            nbtext = msg.substring(idx + 1);
         }
+
         // Capture the layout's TextView and set the string as its text
         TextView title = findViewById(R.id.title);
-        title.setText(msgtitle);
+        title.setText(msgtitle.replace("_"," "));
+
+        launchText(msgtitle, Integer.parseInt(nbtext), am);
+
+    }
+
+    public void launchText(String msgtitle, int nbtext, AssetManager am) {
 
         TextView paragraphe = findViewById(R.id.paragraphe);
         StringBuilder text = new StringBuilder();
@@ -50,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(am.open(msg)));
+                    new InputStreamReader(am.open(msgtitle + "/" + nbtext)));
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 text.append(mLine);
@@ -71,14 +80,14 @@ public class GameActivity extends AppCompatActivity {
         }
 
         ArrayList< Pair<Pair< Integer, Integer>, Integer>> analysis =
-            new ArrayList<>();
+                new ArrayList<>();
         String newtext = textAnalyser(text, analysis);
 
         SpannableString ss = new SpannableString(newtext);
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-                startActivity(new Intent(GameActivity.this, MainActivity.class));
+                launchText(msgtitle, analysis.get(0).getSecond(), am);
             }
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -122,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
 
             newtext = newtext.replaceFirst("\\[" + tmp3 + "]","");
 
-            analysis.add(new Pair<>(tmp1,tmp3));
+            analysis.add(new Pair<>(new Pair<>(tmp1.getFirst(), tmp1.getSecond()),tmp3));
             index = newtext.indexOf("[", start - (tmp2 - tmp1.getSecond()));
         }
 
