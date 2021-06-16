@@ -98,14 +98,14 @@ public class GameActivity extends AppCompatActivity {
                               ArrayList<Pair<Pair<Integer,Integer>,Integer>> analysis) {
         String newtext = text.toString();
         Pair< Integer, Integer> tmp1 = new Pair<>(); //clickable zone
-        Pair< Integer, Integer> tmp2= new Pair<>(); //choice zone
+        int tmp2; //choice zone
         int tmp3; //value of the choice zone
 
         int start;
         int index = newtext.indexOf("[");
 
         while(index != -1) { //while there is choices in the text with right format
-            tmp1.setFirst(index); //-1 because we're removing it in the text
+            tmp1.setFirst(index);
             start = index;
             newtext = newtext.replaceFirst("\\[","");
 
@@ -113,19 +113,17 @@ public class GameActivity extends AppCompatActivity {
             tmp1.setSecond(index);
             newtext = newtext.replaceFirst("]","");
 
-            tmp2.setFirst(index);
-            start = index;
 
             index = newtext.indexOf("]", start);
-            tmp2.setSecond(index);
+            tmp2 = index;
             start = index;
 
-            System.out.println(tmp2.getFirst() + tmp2.getSecond());
-            tmp3 = Integer.parseInt(newtext.substring(tmp2.getFirst() + 1, tmp2.getSecond())); //get the right value
+            tmp3 = Integer.parseInt(newtext.substring(tmp1.getSecond() + 1, tmp2)); //get the right choice's value
+
+            newtext = newtext.replaceFirst("\\[" + tmp3 + "]","");
 
             analysis.add(new Pair<>(tmp1,tmp3));
-
-            index = newtext.indexOf("[", start);
+            index = newtext.indexOf("[", start - (tmp2 - tmp1.getSecond()));
         }
 
         return newtext;
