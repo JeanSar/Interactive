@@ -32,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
     private String currentText = "0";
     private String story = "";
+    private boolean isSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +140,10 @@ public class GameActivity extends AppCompatActivity {
         paragraphe.setMovementMethod(LinkMovementMethod.getInstance());
         paragraphe.setHighlightColor(Color.TRANSPARENT);
 
-        //storing the current position in the story
+        //storing the current position in the story in a variable
         currentText = Integer.toString(nbtext);
+        //Progression is not saved
+        isSaved = false;
     }
 
     //get the possible choices and the indexes of the clickable texts while removing the encoding information
@@ -201,16 +204,16 @@ public class GameActivity extends AppCompatActivity {
         File dir = new File(this.getFilesDir(), "saves");
         if(!dir.exists()){
             if(dir.mkdir()) {
-                //Faire qqc
+                //TODO Faire qqc
             }
         }
-
         try {
             File gpxfile = new File(dir, story);
             FileWriter writer = new FileWriter(gpxfile);
             writer.append(currentText);
             writer.flush();
             writer.close();
+            isSaved = true;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -222,15 +225,18 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(android.R.string.dialog_alert_title);
-        builder.setMessage("Vous allez quitter la partie sans sauvegarder votre progression");
+        if(isSaved) {
+            builder.setMessage("Partie sauvegardée - Voulez-vous vraiment quitter ?");
+        } else {
+            builder.setMessage("Vous allez quitter la partie sans sauvegarder votre progression");
+            builder.setNegativeButton("Sauver", (dialog, which) -> {
+                save();
+                GameActivity.super.onBackPressed();
+            });
+        }
         builder.setPositiveButton(android.R.string.yes,
                 (dialog, which) -> super.onBackPressed());
-
-        builder.setNegativeButton("Sauver",
-                (dialog, which) -> super.onBackPressed());
-
-        builder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
-        });
+        builder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {});
 
         AlertDialog dialog = builder.create();
         dialog.show();
