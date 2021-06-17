@@ -3,13 +3,10 @@ package com.example.interactive;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -172,21 +169,11 @@ public class GameActivity extends AppCompatActivity {
 
         return newtext;
     }
-    /*
-    private void addIdToBackButton(Toolbar toolbar) {
-        for (int i = 0; i < toolbar.getChildCount(); i++) {
-            View child = toolbar.getChildAt(i);
-            if (child instanceof AppCompatImageButton) {
-                child.setId(R.id.toolbar_back_button);
-                return;
-            }
-        }
-    }*/
-
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                quitToMenu();
+                confirmQUit();
                 return true;
 /*
             case :
@@ -198,6 +185,24 @@ public class GameActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void confirmQUit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(android.R.string.dialog_alert_title);
+        builder.setMessage("Vous allez quitter la partie sans sauvegarder votre progression");
+        builder.setPositiveButton(android.R.string.yes,
+                (dialog, which) -> quitToMenu());
+
+        builder.setNegativeButton("Sauver",
+                (dialog, which) -> quitToMenu());
+
+        builder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
