@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -201,6 +202,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void save() {
+        String toasttext = "";
         File dir = new File(this.getFilesDir(), "saves");
         if(!dir.exists()){
             boolean created = dir.mkdir();
@@ -214,9 +216,15 @@ public class GameActivity extends AppCompatActivity {
             writer.append(currentText);
             writer.flush();
             writer.close();
+            toasttext = "Sauvegarde ...";
             isSaved = true;
         } catch (Exception e){
             e.printStackTrace();
+            toasttext = "Impossible de sauvegarder, contactez le dev svp";
+        } finally  {
+            Toast toast = Toast.makeText(this, toasttext,Toast.LENGTH_SHORT );
+            toast.show();
+
         }
 
     }
