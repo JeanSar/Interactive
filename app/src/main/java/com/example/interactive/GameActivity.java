@@ -116,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
                     if(analysis.get(finalI).getSecond() != -1) {
                         launchText(msgtitle, analysis.get(finalI).getSecond(), am);
                     }else {
-                        quitToMenu();
+                        finish();
                     }
                 }
                 @Override
@@ -173,7 +173,7 @@ public class GameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                confirmQUit();
+                onBackPressed();
                 return true;
 /*
             case :
@@ -187,16 +187,17 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void confirmQUit() {
+    @Override
+    public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(android.R.string.dialog_alert_title);
         builder.setMessage("Vous allez quitter la partie sans sauvegarder votre progression");
         builder.setPositiveButton(android.R.string.yes,
-                (dialog, which) -> quitToMenu());
+                (dialog, which) -> super.onBackPressed());
 
         builder.setNegativeButton("Sauver",
-                (dialog, which) -> quitToMenu());
+                (dialog, which) -> super.onBackPressed());
 
         builder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
         });
@@ -205,8 +206,4 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
-    public void quitToMenu() {
-        finish();
-    }
 }
