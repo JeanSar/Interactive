@@ -1,11 +1,15 @@
 package com.example.interactive;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -14,6 +18,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,6 +49,8 @@ public class GameActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
+
+
         //getting access to assets via AssetManager
         AssetManager am = getAssets();
 
@@ -68,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    //display the right text from the story
     public void launchText(String msgtitle, int nbtext, AssetManager am) {
 
         TextView paragraphe = findViewById(R.id.paragraphe);
@@ -164,6 +172,34 @@ public class GameActivity extends AppCompatActivity {
 
         return newtext;
     }
+    /*
+    private void addIdToBackButton(Toolbar toolbar) {
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            View child = toolbar.getChildAt(i);
+            if (child instanceof AppCompatImageButton) {
+                child.setId(R.id.toolbar_back_button);
+                return;
+            }
+        }
+    }*/
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                quitToMenu();
+                return true;
+/*
+            case :
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;*/
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
 
     public void quitToMenu() {
         finish();
