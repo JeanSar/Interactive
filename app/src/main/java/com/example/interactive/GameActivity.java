@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -40,7 +41,6 @@ public class GameActivity extends AppCompatActivity {
         assert ab != null;
 
         // Disable de title
-
         ab.setDisplayShowTitleEnabled(false);
 
         // Enable the Up button
@@ -206,4 +206,11 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
 }
+
