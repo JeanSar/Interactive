@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
          String message = "La_Traque/0";
          intent.putExtra(EXTRA_MESSAGE, message);
          startActivity(intent);
-         finish();
     }
 
 

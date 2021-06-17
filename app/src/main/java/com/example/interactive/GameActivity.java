@@ -1,6 +1,9 @@
 package com.example.interactive;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -25,6 +28,21 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        // toolbar2 is defined in the layout file
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(myToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+
+        // Disable de title
+
+        ab.setDisplayShowTitleEnabled(false);
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
         //getting access to assets via AssetManager
         AssetManager am = getAssets();
@@ -148,8 +166,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void quitToMenu() {
-        startActivity(new Intent(this, MainActivity.class));
         finish();
-
     }
 }
