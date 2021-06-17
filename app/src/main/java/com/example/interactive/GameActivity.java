@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -21,11 +22,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
+
+    private String currentText = "0";
+    private String story = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +52,6 @@ public class GameActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-
-
         //getting access to assets via AssetManager
         AssetManager am = getAssets();
 
@@ -63,6 +67,8 @@ public class GameActivity extends AppCompatActivity {
             msgtitle =  msg.substring(0,idx);
             nbtext = msg.substring(idx + 1);
         }
+
+        story = msgtitle;
 
         // Capture the layout's TextView and set the string as its text
         TextView title = findViewById(R.id.title);
@@ -132,6 +138,9 @@ public class GameActivity extends AppCompatActivity {
         paragraphe.setText(ss);
         paragraphe.setMovementMethod(LinkMovementMethod.getInstance());
         paragraphe.setHighlightColor(Color.TRANSPARENT);
+
+        //storing the current position in the story
+        currentText = Integer.toString(nbtext);
     }
 
     //get the possible choices and the indexes of the clickable texts while removing the encoding information
@@ -169,22 +178,43 @@ public class GameActivity extends AppCompatActivity {
 
         return newtext;
     }
+
     @Override
+    @SuppressLint("NonConstantResourceId")
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-/*
-            case :
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                return true;*/
+
+            case R.id.action_favorite:
+                save();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void save() {
+        File dir = new File(this.getFilesDir(), "saves");
+        if(!dir.exists()){
+            if(dir.mkdir()) {
+                //Faire qqc
+            }
+        }
+
+        try {
+            File gpxfile = new File(dir, story);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(currentText);
+            writer.flush();
+            writer.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
