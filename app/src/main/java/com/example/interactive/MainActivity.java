@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
          } catch (FileNotFoundException e) {
              System.out.println("An error occurred.");
              e.printStackTrace();
+         } finally {
+             if(message == "")
+                 message = STORY + "/0";
          }
 
 
