@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
              System.out.println("An error occurred.");
              e.printStackTrace();
          } finally {
-             if(message == "")
+             if(message.equals(""))
                  message = STORY + "/0";
          }
 
