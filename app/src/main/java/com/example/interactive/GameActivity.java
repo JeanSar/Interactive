@@ -205,7 +205,7 @@ public class GameActivity extends AppCompatActivity {
         if(!dir.exists()){
             boolean created = dir.mkdir();
             if (created) {
-                //TODO faire qqc
+                System.out.println("Directory saves successfully created");
             }
         }
         try {
