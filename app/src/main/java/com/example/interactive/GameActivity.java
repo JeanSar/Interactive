@@ -203,8 +203,9 @@ public class GameActivity extends AppCompatActivity {
     public void save() {
         File dir = new File(this.getFilesDir(), "saves");
         if(!dir.exists()){
-            if(dir.mkdir()) {
-                //TODO Faire qqc
+            boolean created = dir.mkdir();
+            if (created) {
+                //TODO faire qqc
             }
         }
         try {
