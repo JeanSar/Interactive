@@ -41,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         // toolbar2 is defined in the layout file
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
+        Toolbar myToolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(myToolbar);
 
         // Get a support ActionBar corresponding to this toolbar
@@ -124,7 +124,10 @@ public class GameActivity extends AppCompatActivity {
                     if(analysis.get(finalI).getSecond() != -1) {
                         launchText(msgtitle, analysis.get(finalI).getSecond(), am);
                     }else {
+                        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
+
                     }
                 }
                 @Override
@@ -240,11 +243,17 @@ public class GameActivity extends AppCompatActivity {
             builder.setMessage("Vous allez quitter la partie sans sauvegarder votre progression");
             builder.setNegativeButton("Sauver", (dialog, which) -> {
                 save();
-                GameActivity.super.onBackPressed();
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
             });
         }
-        builder.setPositiveButton(android.R.string.yes,
-                (dialog, which) -> super.onBackPressed());
+        builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
         builder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {});
 
         AlertDialog dialog = builder.create();

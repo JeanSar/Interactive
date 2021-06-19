@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Interactive</string>
-    <string name="button_play">Play</string>
+    <string name="button_play">New Story</string>
+    <string name="button_continue">Continue</string>
     <string name="button_quit">Quit</string>
     <string name="textview">TextView</string>
     <string name="action_favorite">action_favorite</string>
